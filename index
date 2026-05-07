@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RDG Jeans - Ranking Semanal</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#111;--bg2:#1a1a1a;--bg3:#222;--border:#2e2e2e;--gold:#c9a84c;--gold2:#e8c97a;--white:#f0ede8;--muted:#888;--green:#3ecf72;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--white);font-size:16px;}
+.hdr{background:linear-gradient(135deg,#141414,#1e1c18);border-bottom:1px solid #c9a84c33;padding:16px 26px;display:flex;align-items:center;justify-content:space-between;}
+.hdr h1{font-size:1.4rem;font-weight:700;letter-spacing:3px;}
+.hdr h1 span{color:var(--gold);}
+.hdr p{font-size:.75rem;color:var(--muted);letter-spacing:2px;margin-top:2px;}
+.badge{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#111;font-size:.72rem;font-weight:800;padding:6px 14px;border-radius:20px;letter-spacing:2px;}
+.wrap{padding:22px 26px;}
+.g-wrap{background:var(--bg2);border:1px solid #c9a84c33;border-radius:14px;overflow:hidden;}
+.g-hdr{background:linear-gradient(135deg,#141414,#1e1c18);border-bottom:1px solid #c9a84c33;padding:20px 26px;display:flex;align-items:center;justify-content:space-between;position:relative;}
+.g-hdr h2{font-size:1.5rem;font-weight:800;letter-spacing:4px;}
+.g-hdr h2 span{color:var(--gold);}
+.g-hdr-r{text-align:right;}
+.gsem{font-size:1.1rem;font-weight:700;color:var(--gold);}
+.gper{font-size:.9rem;color:var(--muted);margin-top:2px;}
+.greg{font-size:.95rem;color:var(--white);margin-top:3px;}
+.g-body{padding:20px 24px;}
+.dest-wrap{margin-bottom:16px;}
+.dest-title{font-size:.95rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;font-weight:700;}
+.dest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.dest-card{background:linear-gradient(135deg,#c9a84c0a,#c9a84c14);border:1px solid #c9a84c33;border-radius:9px;padding:14px 16px;display:flex;align-items:flex-start;gap:10px;}
+.dest-icon{font-size:1.6rem;margin-top:1px;}
+.dest-info .dn{font-size:1.05rem;font-weight:700;color:var(--gold);}
+.dest-info .ds{font-size:.85rem;color:var(--muted);margin-top:4px;line-height:1.4;}
+.g-rank-title{font-size:.95rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;font-weight:700;margin-top:16px;}
+.g-col-hdrs{display:grid;grid-template-columns:44px 1fr 50px 88px 100px 90px;gap:6px;padding:0 12px;margin-bottom:4px;}
+.g-col-hdrs span{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.g-col-hdrs span:nth-child(n+3){text-align:right;}
+.g-list{display:flex;flex-direction:column;gap:1px;}
+.gi{display:grid;grid-template-columns:44px 1fr 50px 88px 100px 90px;align-items:center;gap:6px;background:var(--bg3);border-radius:6px;padding:5px 12px;border:1px solid transparent;}
+.gi.t1{background:#c9a84c12;border-color:#c9a84c55;}
+.gi.t2{background:#a0a0b00a;border-color:#a0a0b033;}
+.gi.t3{background:#8b5e3c0a;border-color:#8b5e3c33;}
+.gi.gns{opacity:.4;}
+.g-num{font-size:1rem;font-weight:800;text-align:center;color:var(--muted);}
+.gnm{font-size:1.15rem;font-weight:700;}
+.gnm small{font-size:.85rem;color:var(--muted);display:block;font-weight:400;margin-top:1px;}
+.guf{font-size:.95rem;text-align:right;font-weight:700;}
+.gpct{font-size:1.1rem;font-weight:800;text-align:right;}
+.gtk{font-size:.92rem;font-weight:700;color:var(--white);text-align:right;}
+.gop{font-size:.92rem;font-weight:700;color:var(--white);text-align:right;}
+.g-pizza-bottom{margin-top:16px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:18px;}
+.g-pizza-title{font-size:.88rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;font-weight:700;}
+.g-tops{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px;}
+.g-top-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.g-top-card h4{font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.g-top-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #1a1a1a;}
+.g-top-row:last-child{border-bottom:none;}
+.g-top-medal{font-size:.95rem;min-width:22px;text-align:center;}
+.g-top-name{font-size:.82rem;font-weight:600;flex:1;}
+.g-top-val{font-size:.82rem;color:var(--gold);font-weight:700;white-space:nowrap;}
+.g-footer{margin-top:16px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px;}
+.g-msg{background:linear-gradient(135deg,#c9a84c08,#c9a84c14);border:1px solid #c9a84c22;border-radius:9px;padding:14px 18px;}
+.g-msg p{font-size:1.05rem;color:var(--white);line-height:1.7;font-style:italic;}
+.g-msg small{font-size:.8rem;color:var(--gold);display:block;margin-top:5px;letter-spacing:1px;}
+.g-leg{font-size:.8rem;color:var(--muted);text-align:right;line-height:1.8;white-space:nowrap;}
+.btn{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#111;border:none;padding:10px 22px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;}
+.btn:hover{opacity:.9;}
+@media(max-width:900px){.dest-grid{grid-template-columns:1fr;}.g-tops{grid-template-columns:1fr;}.g-footer{grid-template-columns:1fr;}.g-col-hdrs,.gi{grid-template-columns:36px 1fr 40px 76px 88px 70px;}}
+@media(max-width:600px){.wrap{padding:12px;}.g-col-hdrs,.gi{grid-template-columns:30px 1fr 36px 70px;}.g-col-hdrs span:nth-child(5),.g-col-hdrs span:nth-child(6),.gi .gtk,.gi .gop{display:none;}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div><h1>RDG <span>JEANS</span></h1><p>RANKING SEMANAL - COLECAO VERAO 2027</p></div>
+  <span class="badge">VERAO 2027</span>
+</div>
+<div class="wrap">
+  <div class="g-wrap">
+    <div class="g-hdr">
+      <div class="g-hdr-l"><h2>RDG <span>JEANS</span></h2><p>ACOMPANHAMENTO SEMANAL - VERAO 2027</p></div>
+      <div class="g-hdr-r">
+        <div class="gsem">Semana <span id="g-semn">--</span> de 24</div>
+        <div class="gper" id="g-per">--</div>
+        <div class="greg">Faltam <span id="g-falt">--</span> semanas</div>
+      </div>
+    </div>
+    <div class="g-body">
+      <div class="dest-wrap">
+        <div class="dest-title">Destaques da Semana</div>
+        <div class="dest-grid" id="g-dest"></div>
+      </div>
+      <div class="g-rank-title">Ranking % Cota - Colecao Verao 2027</div>
+      <div class="g-col-hdrs">
+        <span>#</span><span>Representante</span><span>UF</span><span>% Cota</span><span>Ticket Medio</span><span>Aberturas</span>
+      </div>
+      <div class="g-list" id="g-list"></div>
+      <div class="g-pizza-bottom">
+        <div class="g-pizza-title">Representatividade no Volume Total (Qtde de Pecas)</div>
+        <div style="max-width:600px;margin:0 auto;"><canvas id="c-gpizza" height="320"></canvas></div>
+      </div>
+      <div class="g-tops" id="g-tops-wrap" style="grid-template-columns:repeat(2,1fr)">
+        <div class="g-top-card"><h4>🏆 Top 5 Quantidade</h4><div id="top5-qtde"></div></div>
+        <div class="g-top-card"><h4>🌿 Top 5 Aberturas</h4><div id="top5-aberturas"></div></div>
+      </div>
+      <div class="g-tops" id="g-tops-regioes" style="grid-template-columns:repeat(5,1fr);margin-top:14px;">
+        <div class="g-top-card"><h4>🔵 Sul</h4><div id="top5-sul"></div></div>
+        <div class="g-top-card"><h4>🟡 Sudeste</h4><div id="top5-sudeste"></div></div>
+        <div class="g-top-card"><h4>🟢 Centro-Oeste</h4><div id="top5-co"></div></div>
+        <div class="g-top-card"><h4>🟠 Nordeste</h4><div id="top5-nordeste"></div></div>
+        <div class="g-top-card"><h4>🔴 Norte</h4><div id="top5-norte"></div></div>
+      </div>
+      <div class="g-footer">
+        <div class="g-msg"><p id="g-msgt">--</p><small>RDG JEANS - VERAO 2027</small></div>
+        <div class="g-leg">Ativo | Aguardando inicio<br><span style="color:var(--gold);font-size:.65rem">* Destaque da semana</span></div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
+        <button class="btn" onclick="exportarRanking()">Salvar Ranking</button>
+        <button class="btn" onclick="exportarPizza()">Salvar Representatividade</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DADOS
+// ============================================================
+var REPS={
+  '07889':{n:'JUSCELINO',uf:'BA',r:'Bahia',c:4000,reg:'Nordeste'},
+  '07890':{n:'MADSON E JAU',uf:'BA',r:'Bahia',c:4000,reg:'Nordeste'},
+  '00035':{n:'GEOVANE',uf:'CE',r:'Ceara',c:5000,reg:'Nordeste'},
+  '07606':{n:'WELLS',uf:'ES',r:'Espirito Santo',c:6000,reg:'Sudeste'},
+  '07892':{n:'BRUNO FERNANDES',uf:'GO',r:'Goias/DF/TO',c:3000,reg:'Centro-Oeste'},
+  '06008':{n:'GILIARDE',uf:'MA',r:'Maranhao/Piaui',c:9000,reg:'Nordeste'},
+  '07607':{n:'LEANDRO',uf:'MT',r:'Mato Grosso',c:8500,reg:'Centro-Oeste'},
+  '07608':{n:'ROMILDO',uf:'MG',r:'Minas Gerais',c:5000,reg:'Sudeste'},
+  '06672':{n:'DANILO',uf:'MG',r:'Minas Gerais',c:9500,reg:'Sudeste'},
+  '00020':{n:'LAURO',uf:'PA',r:'Para',c:9000,reg:'Norte'},
+  '07891':{n:'ALLAN',uf:'PA',r:'Para/Amapa',c:4500,reg:'Norte'},
+  '07320':{n:'MARCOS CANDIDO',uf:'PB',r:'Paraiba/RN',c:3000,reg:'Nordeste'},
+  '00018':{n:'RAFAEL',uf:'PR',r:'Parana',c:13500,reg:'Sul'},
+  '07520':{n:'LUCIANO',uf:'PR',r:'Parana',c:3500,reg:'Sul'},
+  '07332':{n:'ISAIAS E GIZELE',uf:'PE',r:'Pernambuco',c:3500,reg:'Nordeste'},
+  '00032':{n:'EMANUEL E CONRADO',uf:'RS',r:'Rio Grande do Sul',c:18000,reg:'Sul'},
+  '00037':{n:'MARCIO',uf:'RS',r:'Rio Grande do Sul',c:12500,reg:'Sul'},
+  '00052':{n:'MANO',uf:'RO',r:'Rondonia/Acre',c:7000,reg:'Norte'},
+  '00045':{n:'SILVIO E VANESSA',uf:'SC',r:'Santa Catarina',c:13500,reg:'Sul'},
+  '06693':{n:'JOSE PEDRO',uf:'SC',r:'Santa Catarina',c:6500,reg:'Sul'},
+  '00040':{n:'LUIZ',uf:'SC',r:'Santa Catarina',c:4000,reg:'Sul'},
+  '07894':{n:'BRUNO VINICIUS',uf:'SP',r:'Sao Paulo',c:3000,reg:'Sudeste'},
+  '07741':{n:'WEMERSON',uf:'SE',r:'Sergipe/Alagoas',c:3000,reg:'Nordeste'}
+};
+var CORES=['#c9a84c','#e8c97a','#a0a0b0','#8b7355','#3ecf72','#60c9e8','#e07060','#9b7fd4','#5ec4a8','#e8a860','#7090d0','#d07090','#90d070','#d0a040','#70c0d0','#c070c0','#a0c060','#c09050','#6080c0','#b06060','#60b080','#a06082','#80a060'];
+
+// ============================================================
+// DADOS SEMANA ATUAL E ACUMULADO
+// Atualize estes dois blocos a cada semana
+// ============================================================
+var dSem=[
+  {cod:'00032',vlr:111566.1,qtde:869,pedidos:6,cliNov:0,ticket:128.38},
+  {cod:'00020',vlr:82242.5,qtde:695,pedidos:1,cliNov:0,ticket:118.33},
+  {cod:'07890',vlr:49792.6,qtde:384,pedidos:4,cliNov:1,ticket:129.67},
+  {cod:'00018',vlr:47318.5,qtde:365,pedidos:4,cliNov:1,ticket:129.64},
+  {cod:'00040',vlr:45669.9,qtde:351,pedidos:2,cliNov:0,ticket:130.11},
+  {cod:'06672',vlr:44879.3,qtde:327,pedidos:2,cliNov:0,ticket:137.25},
+  {cod:'07607',vlr:24250.3,qtde:187,pedidos:3,cliNov:2,ticket:129.68},
+  {cod:'07608',vlr:11498.9,qtde:91,pedidos:1,cliNov:0,ticket:126.36}
+];
+var dAcum=[
+  {cod:'00032',vlr:597747.319,qtde:4816,pedidos:25,cliNov:1,ticket:124.12},
+  {cod:'00018',vlr:451607.215,qtde:3570,pedidos:17,cliNov:2,ticket:126.50},
+  {cod:'00037',vlr:281408.9,qtde:2201,pedidos:14,cliNov:1,ticket:127.86},
+  {cod:'06693',vlr:126868.3,qtde:1017,pedidos:6,cliNov:0,ticket:124.75},
+  {cod:'07607',vlr:102435.913,qtde:812,pedidos:7,cliNov:2,ticket:126.15},
+  {cod:'00020',vlr:82242.5,qtde:695,pedidos:1,cliNov:0,ticket:118.33},
+  {cod:'00040',vlr:77759.3,qtde:617,pedidos:3,cliNov:0,ticket:126.03},
+  {cod:'07608',vlr:74097.1,qtde:559,pedidos:3,cliNov:1,ticket:132.55},
+  {cod:'07890',vlr:69856,qtde:550,pedidos:5,cliNov:1,ticket:127.01},
+  {cod:'00052',vlr:61796.3,qtde:497,pedidos:2,cliNov:0,ticket:124.34},
+  {cod:'07606',vlr:45196.2,qtde:338,pedidos:3,cliNov:0,ticket:133.72},
+  {cod:'06672',vlr:44879.3,qtde:327,pedidos:2,cliNov:0,ticket:137.25},
+  {cod:'07891',vlr:38902,qtde:300,pedidos:4,cliNov:4,ticket:129.67},
+  {cod:'07520',vlr:7632.015,qtde:63,pedidos:1,cliNov:1,ticket:121.14}
+];
+
+// ============================================================
+// FUNÇÕES
+// ============================================================
+var chartGPizza=null;
+function fmtBR(n){return n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fmtInt(n){return n.toLocaleString('pt-BR',{maximumFractionDigits:0});}
+function setText(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
+function corBarra(p){return p>=100?'#3ecf72':p>=75?'#c9a84c':p>=50?'#e8c97a':p>0?'#e8c97a':'#444';}
+function calcSem(){var ini=new Date('2026-04-15'),h=new Date();return Math.max(1,Math.ceil(Math.max((h-ini)/864e5,0)/7));}
+
+function buildLista(dados){
+  var m={};for(var i=0;i<dados.length;i++)m[dados[i].cod]=dados[i];
+  var lista=[],chaves=Object.keys(REPS);
+  for(var i=0;i<chaves.length;i++){
+    var cod=chaves[i],info=REPS[cod],v=m[cod]||{};
+    var qtde=v.qtde||0,vlr=v.vlr||0;
+    lista.push({cod:cod,nome:info.n,uf:info.uf,regiao:info.r,reg:info.reg,cota:info.c,
+      qtde:qtde,vlr:vlr,cliNov:v.cliNov||0,pedidos:v.pedidos||0,
+      ticket:qtde>0?vlr/qtde:0,pct:qtde>0?(qtde/info.c*100):0,ativo:qtde>0});
+  }
+  lista.sort(function(a,b){return b.pct-a.pct;});
+  return lista;
+}
+
+function calcDestaques(listaSem){
+  var dest=[],usados=[];
+  var evol=listaSem.filter(function(r){return r.ativo;}).sort(function(a,b){return b.pct-a.pct;});
+  if(evol.length>0){var mx=evol[0].pct,emp=evol.filter(function(r){return Math.abs(r.pct-mx)<0.01;});dest.push({cods:emp.map(function(r){return r.cod;}),nome:emp.map(function(r){return r.nome;}).join(' e '),icon:'⚡',desc:'Maior evolucao na cota esta semana - '+mx.toFixed(1)+'% atingido'});emp.forEach(function(r){usados.push(r.cod);});}
+  var ab=listaSem.filter(function(r){return r.cliNov>0&&usados.indexOf(r.cod)<0;}).sort(function(a,b){return b.cliNov-a.cliNov;});
+  if(ab.length>0){var mx2=ab[0].cliNov,emp2=ab.filter(function(r){return r.cliNov===mx2;});dest.push({cods:emp2.map(function(r){return r.cod;}),nome:emp2.map(function(r){return r.nome;}).join(' e '),icon:'🌿',desc:'Mais aberturas na semana - '+mx2+' cliente'+(mx2>1?'s':'')+' novo'+(mx2>1?'s':'')});emp2.forEach(function(r){usados.push(r.cod);});}
+  var pd=listaSem.filter(function(r){return r.pedidos>0&&usados.indexOf(r.cod)<0;}).sort(function(a,b){return b.pedidos-a.pedidos;});
+  if(pd.length>0){var mx3=pd[0].pedidos,emp3=pd.filter(function(r){return r.pedidos===mx3;});dest.push({cods:emp3.map(function(r){return r.cod;}),nome:emp3.map(function(r){return r.nome;}).join(' e '),icon:'📋',desc:'Mais pedidos incluidos na semana - '+mx3+' pedido'+(mx3>1?'s':'')});}
+  if(dest.length===0){dest.push({cods:[],nome:'--',icon:'⏳',desc:'Sem dados disponiveis'});dest.push({cods:[],nome:'--',icon:'⏳',desc:'Os destaques serao calculados automaticamente'});dest.push({cods:[],nome:'--',icon:'⏳',desc:'Criterios: evolucao, aberturas e pedidos'});}
+  return dest;
+}
+
+function renderTop5(listaAcum){
+  var medalhas=['🥇','🥈','🥉','4°','5°'];
+  var ativos=listaAcum.filter(function(r){return r.ativo;});
+  var topQ=[].concat(ativos).sort(function(a,b){return b.qtde-a.qtde;}).slice(0,5);
+  var h1='';
+  for(var i=0;i<topQ.length;i++)h1+='<div class="g-top-row"><span class="g-top-medal">'+medalhas[i]+'</span><span class="g-top-name">'+topQ[i].nome+'</span></div>';
+  document.getElementById('top5-qtde').innerHTML=h1;
+  var mapaRegioes={Sul:'top5-sul',Sudeste:'top5-sudeste','Centro-Oeste':'top5-co',Nordeste:'top5-nordeste',Norte:'top5-norte'};
+  Object.keys(mapaRegioes).forEach(function(rg){
+    var reps=ativos.filter(function(r){return r.reg===rg;}).sort(function(a,b){return b.qtde-a.qtde;}).slice(0,5);
+    var h='';
+    for(var i=0;i<reps.length;i++)h+='<div class="g-top-row"><span class="g-top-medal">'+medalhas[i]+'</span><span class="g-top-name">'+reps[i].nome+'</span></div>';
+    if(!h)h='<div style="color:var(--muted);font-size:.78rem;padding:8px 0;">Sem ativos</div>';
+    document.getElementById(mapaRegioes[rg]).innerHTML=h;
+  });
+  var topA=[].concat(ativos).filter(function(r){return r.cliNov>0;}).sort(function(a,b){return b.cliNov-a.cliNov;}).slice(0,5);
+  var h3='';
+  for(var i=0;i<topA.length;i++)h3+='<div class="g-top-row"><span class="g-top-medal">'+medalhas[i]+'</span><span class="g-top-name">'+topA[i].nome+'</span><span class="g-top-val">'+topA[i].cliNov+'</span></div>';
+  if(!h3)h3='<div style="color:var(--muted);font-size:.78rem;padding:8px 0;">Sem aberturas registradas</div>';
+  document.getElementById('top5-aberturas').innerHTML=h3;
+}
+
+function renderPizzaGrupo(atv){
+  var canvasEl=document.getElementById('c-gpizza');canvasEl.height=320;
+  var ctx=canvasEl.getContext('2d');
+  if(chartGPizza)chartGPizza.destroy();
+  var total=atv.reduce(function(s,l){return s+l.qtde;},0);
+  var labelPlugin={id:'labelPlugin',afterDatasetsDraw:function(chart){var meta=chart.getDatasetMeta(0);var ds=chart.data.datasets[0];var labels=chart.data.labels;meta.data.forEach(function(arc,i){var ctx2=chart.ctx;var pct=ds.data[i]/total*100;var angle=(arc.startAngle+arc.endAngle)/2;var cosA=Math.cos(angle);var sinA=Math.sin(angle);var outerR=arc.outerRadius;var cx=arc.x;var cy=arc.y;var px1=cx+cosA*outerR;var py1=cy+sinA*outerR;var px2=cx+cosA*(outerR+80);var py2=cy+sinA*(outerR+80);ctx2.save();ctx2.strokeStyle=CORES[i%CORES.length];ctx2.lineWidth=1.5;ctx2.beginPath();ctx2.moveTo(px1,py1);ctx2.lineTo(px2,py2);ctx2.stroke();ctx2.fillStyle=CORES[i%CORES.length];ctx2.beginPath();ctx2.arc(px2,py2,2,0,Math.PI*2);ctx2.fill();ctx2.fillStyle='#f0ede8';ctx2.font='bold 13px Segoe UI';ctx2.textAlign=cosA>=0?'left':'right';ctx2.textBaseline='middle';var txtX=px2+cosA*8;ctx2.fillText(labels[i],txtX,py2-9);ctx2.fillStyle=CORES[i%CORES.length];ctx2.font='bold 12px Segoe UI';ctx2.fillText(pct.toFixed(1)+'%',txtX,py2+9);ctx2.restore();});}};
+  chartGPizza=new Chart(ctx,{type:'pie',plugins:[labelPlugin],data:{labels:atv.map(function(l){return l.nome;}),datasets:[{data:atv.map(function(l){return l.qtde;}),backgroundColor:CORES.slice(0,atv.length),borderWidth:2,borderColor:'#222'}]},options:{responsive:true,layout:{padding:{top:90,bottom:90,left:160,right:160}},plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.label+': '+(c.raw/total*100).toFixed(1)+'% ('+fmtInt(c.raw)+' pc)';}}}}}});
+}
+
+function renderGrupo(){
+  var sn=calcSem(),sp='04/05 a 10/05',msg='A colecao Verao 2027 esta em ritmo! Cada visita, cada pedido conta. Vamos juntos para o melhor resultado!',falt=Math.max(0,24-sn);
+  setText('g-semn',sn);setText('g-per',sp);setText('g-falt',falt);
+  var listaAcum=buildLista(dAcum),listaSem=buildLista(dSem);
+  var dest=calcDestaques(listaSem);
+  var codsDest=[];dest.forEach(function(d){d.cods.forEach(function(c){codsDest.push(c);});});
+  var dh='';
+  for(var i=0;i<dest.length;i++)dh+='<div class="dest-card"><div class="dest-icon">'+dest[i].icon+'</div><div class="dest-info"><div class="dn">'+dest[i].nome+'</div><div class="ds">'+dest[i].desc+'</div></div></div>';
+  document.getElementById('g-dest').innerHTML=dh;
+  var rank=0,gh='';
+  for(var i=0;i<listaAcum.length;i++){
+    var r=listaAcum[i];if(r.ativo)rank++;
+    var pos=r.ativo?rank:'--';
+    var numHtml=pos===1?'<span style="font-size:1.1rem">🥇</span>':pos===2?'<span style="font-size:1.1rem">🥈</span>':pos===3?'<span style="font-size:1.1rem">🥉</span>':'<span class="g-num">'+pos+'</span>';
+    var cor=corBarra(r.pct),isd=codsDest.indexOf(r.cod)>=0,cls=pos===1?' t1':pos===2?' t2':pos===3?' t3':'';
+    gh+='<div class="gi'+cls+(!r.ativo?' gns':'')+'"><span style="text-align:center">'+numHtml+'</span><span class="gnm">'+r.nome+(isd?' <span style="color:var(--gold)">*</span>':'')+'<small>'+r.regiao+'</small></span><span class="guf" style="color:'+cor+'">'+r.uf+'</span><span class="gpct" style="color:'+cor+'">'+r.pct.toFixed(1)+'%</span><span class="gtk">'+(r.ticket>0?'R$'+r.ticket.toFixed(0):'0')+'</span><span class="gop">'+r.cliNov+'</span></div>';
+  }
+  document.getElementById('g-list').innerHTML=gh;
+  var atv=listaAcum.filter(function(l){return l.ativo&&l.qtde>0;});atv.sort(function(a,b){return b.qtde-a.qtde;});
+  renderPizzaGrupo(atv);
+  renderTop5(listaAcum);
+  setText('g-msgt',msg);
+}
+
+function carregarHtml2Canvas(cb){if(typeof html2canvas!=='undefined'){cb();return;}var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';s.onload=cb;document.head.appendChild(s);}
+function exportarRanking(){carregarHtml2Canvas(function(){var pizza=document.querySelector('.g-pizza-bottom'),old=pizza.style.display;pizza.style.display='none';html2canvas(document.querySelector('.g-wrap'),{backgroundColor:'#1a1a1a',scale:2,useCORS:true,logging:false}).then(function(canvas){pizza.style.display=old;var link=document.createElement('a');link.download='RDG_Ranking_Semana'+calcSem()+'.png';link.href=canvas.toDataURL('image/png');link.click();});});}
+function exportarPizza(){carregarHtml2Canvas(function(){html2canvas(document.querySelector('.g-pizza-bottom'),{backgroundColor:'#222222',scale:2,useCORS:true,logging:false}).then(function(canvas){var link=document.createElement('a');link.download='RDG_Pizza_Semana'+calcSem()+'.png';link.href=canvas.toDataURL('image/png');link.click();});});}
+
+renderGrupo();
+</script>
+</body>
+</html>
