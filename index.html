@@ -94,10 +94,7 @@ body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--white);f
         <span>#</span><span>Representante</span><span>UF</span><span>% Cota</span><span>Ticket Medio</span><span>Aberturas</span>
       </div>
       <div class="g-list" id="g-list"></div>
-      <div class="g-pizza-bottom">
-        <div class="g-pizza-title">Representatividade no Volume Total (Qtde de Pecas)</div>
-        <div style="max-width:600px;margin:0 auto;"><canvas id="c-gpizza" height="320"></canvas></div>
-      </div>
+
       <div class="g-tops" id="g-tops-wrap" style="grid-template-columns:repeat(2,1fr)">
         <div class="g-top-card"><h4>🏆 Top 5 Quantidade</h4><div id="top5-qtde"></div></div>
         <div class="g-top-card"><h4>🌿 Top 5 Aberturas</h4><div id="top5-aberturas"></div></div>
@@ -238,15 +235,6 @@ function renderTop5(listaAcum){
   document.getElementById('top5-aberturas').innerHTML=h3;
 }
 
-function renderPizzaGrupo(atv){
-  var canvasEl=document.getElementById('c-gpizza');canvasEl.height=320;
-  var ctx=canvasEl.getContext('2d');
-  if(chartGPizza)chartGPizza.destroy();
-  var total=atv.reduce(function(s,l){return s+l.qtde;},0);
-  var labelPlugin={id:'labelPlugin',afterDatasetsDraw:function(chart){var meta=chart.getDatasetMeta(0);var ds=chart.data.datasets[0];var labels=chart.data.labels;meta.data.forEach(function(arc,i){var ctx2=chart.ctx;var pct=ds.data[i]/total*100;var angle=(arc.startAngle+arc.endAngle)/2;var cosA=Math.cos(angle);var sinA=Math.sin(angle);var outerR=arc.outerRadius;var cx=arc.x;var cy=arc.y;var px1=cx+cosA*outerR;var py1=cy+sinA*outerR;var px2=cx+cosA*(outerR+80);var py2=cy+sinA*(outerR+80);ctx2.save();ctx2.strokeStyle=CORES[i%CORES.length];ctx2.lineWidth=1.5;ctx2.beginPath();ctx2.moveTo(px1,py1);ctx2.lineTo(px2,py2);ctx2.stroke();ctx2.fillStyle=CORES[i%CORES.length];ctx2.beginPath();ctx2.arc(px2,py2,2,0,Math.PI*2);ctx2.fill();ctx2.fillStyle='#f0ede8';ctx2.font='bold 13px Segoe UI';ctx2.textAlign=cosA>=0?'left':'right';ctx2.textBaseline='middle';var txtX=px2+cosA*8;ctx2.fillText(labels[i],txtX,py2-9);ctx2.fillStyle=CORES[i%CORES.length];ctx2.font='bold 12px Segoe UI';ctx2.fillText(pct.toFixed(1)+'%',txtX,py2+9);ctx2.restore();});}};
-  chartGPizza=new Chart(ctx,{type:'pie',plugins:[labelPlugin],data:{labels:atv.map(function(l){return l.nome;}),datasets:[{data:atv.map(function(l){return l.qtde;}),backgroundColor:CORES.slice(0,atv.length),borderWidth:2,borderColor:'#222'}]},options:{responsive:true,layout:{padding:{top:90,bottom:90,left:160,right:160}},plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.label+': '+(c.raw/total*100).toFixed(1)+'% ('+fmtInt(c.raw)+' pc)';}}}}}});
-}
-
 function renderGrupo(){
   var sn=calcSem(),sp='04/05 a 10/05',msg='A colecao Verao 2027 esta em ritmo! Cada visita, cada pedido conta. Vamos juntos para o melhor resultado!',falt=Math.max(0,24-sn);
   setText('g-semn',sn);setText('g-per',sp);setText('g-falt',falt);
@@ -265,8 +253,6 @@ function renderGrupo(){
     gh+='<div class="gi'+cls+(!r.ativo?' gns':'')+'"><span style="text-align:center">'+numHtml+'</span><span class="gnm">'+r.nome+(isd?' <span style="color:var(--gold)">*</span>':'')+'<small>'+r.regiao+'</small></span><span class="guf" style="color:'+cor+'">'+r.uf+'</span><span class="gpct" style="color:'+cor+'">'+r.pct.toFixed(1)+'%</span><span class="gtk">'+(r.ticket>0?'R$'+r.ticket.toFixed(0):'0')+'</span><span class="gop">'+r.cliNov+'</span></div>';
   }
   document.getElementById('g-list').innerHTML=gh;
-  var atv=listaAcum.filter(function(l){return l.ativo&&l.qtde>0;});atv.sort(function(a,b){return b.qtde-a.qtde;});
-  renderPizzaGrupo(atv);
   renderTop5(listaAcum);
   setText('g-msgt',msg);
 }
