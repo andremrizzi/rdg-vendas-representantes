@@ -244,6 +244,9 @@ function renderTop5(listaAcum){
   document.getElementById('top5-aberturas').innerHTML=h3;
 }
 
+// Ranking da atualização anterior para setas ▲▼
+var RANK_ANT_REP={'00018':1,'00052':2,'00032':3,'07606':4,'00037':5,'07607':6,'06693':7,'07520':8,'07891':9,'07332':10,'07608':11,'00045':12,'07890':13,'00040':14,'06672':15,'06008':16,'07892':17,'00020':18,'07741':19,'00035':20};
+
 function renderGrupo(){
   var sn=9,sp='08/06 a 14/06',msg='A colecao Verao 2027 esta em ritmo! Cada visita, cada pedido conta. Vamos juntos para o melhor resultado!',falt=Math.max(0,24-sn);
   setText('g-semn',sn);setText('g-per',sp);setText('g-falt',falt);
@@ -259,7 +262,14 @@ function renderGrupo(){
     var pos=r.ativo?rank:'--';
     var numHtml=pos===1?'<span style="font-size:1.1rem">🥇</span>':pos===2?'<span style="font-size:1.1rem">🥈</span>':pos===3?'<span style="font-size:1.1rem">🥉</span>':'<span class="g-num">'+pos+'</span>';
     var cor=corBarra(r.pct),isd=codsDest.indexOf(r.cod)>=0,cls=pos===1?' t1':pos===2?' t2':pos===3?' t3':'';
-    gh+='<div class="gi'+cls+(!r.ativo?' gns':'')+'"><span style="text-align:center">'+numHtml+'</span><span class="gnm">'+r.nome+(isd?' <span style="color:var(--gold)">*</span>':'')+'<small>'+r.regiao+'</small></span><span class="guf" style="color:'+cor+'">'+r.uf+'</span><span class="gpct" style="color:'+cor+'">'+r.pct.toFixed(1)+'%</span><span class="gtk">'+(r.ticket>0?'R$'+r.ticket.toFixed(0):'0')+'</span><span class="gop">'+r.cliNov+'</span></div>';
+    var setaHtml='';
+    if(r.ativo&&RANK_ANT_REP&&RANK_ANT_REP[r.cod]!==undefined){
+      var diff=RANK_ANT_REP[r.cod]-rank;
+      if(diff>0) setaHtml='<span style="font-size:.6rem;color:#3ecf72;font-weight:700;margin-left:2px;vertical-align:middle">▲'+diff+'</span>';
+      else if(diff<0) setaHtml='<span style="font-size:.6rem;color:#e05c5c;font-weight:700;margin-left:2px;vertical-align:middle">▼'+Math.abs(diff)+'</span>';
+      else setaHtml='<span style="font-size:.6rem;color:#555;margin-left:2px;vertical-align:middle">—</span>';
+    }
+    gh+='<div class="gi'+cls+(!r.ativo?' gns':'')+'"><span style="text-align:center">'+numHtml+setaHtml+'</span><span class="gnm">'+r.nome+(isd?' <span style="color:var(--gold)">*</span>':'')+'<small>'+r.regiao+'</small></span><span class="guf" style="color:'+cor+'">'+r.uf+'</span><span class="gpct" style="color:'+cor+'">'+r.pct.toFixed(1)+'%</span><span class="gtk">'+(r.ticket>0?'R$'+r.ticket.toFixed(0):'0')+'</span><span class="gop">'+r.cliNov+'</span></div>';
   }
   document.getElementById('g-list').innerHTML=gh;
   renderTop5(listaAcum);
