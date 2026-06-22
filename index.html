@@ -151,31 +151,35 @@ var CORES=['#c9a84c','#e8c97a','#a0a0b0','#8b7355','#3ecf72','#60c9e8','#e07060'
 // Atualize estes dois blocos a cada semana
 // ============================================================
 var dSem=[
-  {cod:'07606',vlr:129641.8,qtde:982,pedidos:4,cliNov:2,ticket:132.02},
-  {cod:'00045',vlr:122312.1,qtde:979,pedidos:4,cliNov:0,ticket:124.94},
+  {cod:'00037',vlr:169651.9,qtde:1331,pedidos:6,cliNov:1,ticket:127.46},
+  {cod:'07606',vlr:159699,qtde:1200,pedidos:5,cliNov:2,ticket:133.08},
+  {cod:'00045',vlr:131616.2,qtde:1048,pedidos:5,cliNov:0,ticket:125.59},
+  {cod:'00032',vlr:127009.64,qtde:1014,pedidos:10,cliNov:1,ticket:125.26},
   {cod:'06693',vlr:98003.855,qtde:809,pedidos:3,cliNov:0,ticket:121.14},
-  {cod:'00037',vlr:89487.4,qtde:706,pedidos:3,cliNov:0,ticket:126.75},
-  {cod:'06672',vlr:60981.8,qtde:482,pedidos:2,cliNov:0,ticket:126.52},
-  {cod:'00032',vlr:59267.2,qtde:468,pedidos:4,cliNov:0,ticket:126.64},
-  {cod:'00040',vlr:37709.2,qtde:288,pedidos:1,cliNov:0,ticket:130.93},
+  {cod:'06672',vlr:77471,qtde:630,pedidos:3,cliNov:0,ticket:122.97},
+  {cod:'00040',vlr:42047.4,qtde:326,pedidos:2,cliNov:1,ticket:128.98},
+  {cod:'07607',vlr:28895.6,qtde:224,pedidos:2,cliNov:1,ticket:128.99},
+  {cod:'00018',vlr:25242.4,qtde:196,pedidos:2,cliNov:0,ticket:128.79},
+  {cod:'00052',vlr:20843.3,qtde:167,pedidos:1,cliNov:0,ticket:124.81},
   {cod:'07608',vlr:16965.9,qtde:151,pedidos:1,cliNov:0,ticket:112.36},
+  {cod:'07891',vlr:13831.7,qtde:103,pedidos:1,cliNov:1,ticket:134.29},
   {cod:'07741',vlr:10454.9,qtde:91,pedidos:1,cliNov:1,ticket:114.89},
   {cod:'07520',vlr:5176.1,qtde:39,pedidos:1,cliNov:1,ticket:132.72},
   {cod:'00020',vlr:4706.6,qtde:34,pedidos:1,cliNov:1,ticket:138.43}
 ];
 var dAcum=[
-  {cod:'00032',vlr:1455305.647,qtde:11785,pedidos:73,cliNov:6,ticket:123.49},
-  {cod:'00018',vlr:1095834.217,qtde:8794,pedidos:45,cliNov:7,ticket:124.61},
-  {cod:'00037',vlr:981530.9,qtde:7711,pedidos:43,cliNov:2,ticket:127.29},
-  {cod:'00045',vlr:731201.985,qtde:5742,pedidos:34,cliNov:4,ticket:127.34},
-  {cod:'00052',vlr:566033.6,qtde:4444,pedidos:19,cliNov:5,ticket:127.37},
+  {cod:'00032',vlr:1523691.687,qtde:12335,pedidos:79,cliNov:7,ticket:123.53},
+  {cod:'00018',vlr:1121076.617,qtde:8990,pedidos:47,cliNov:7,ticket:124.70},
+  {cod:'00037',vlr:1061695.4,qtde:8336,pedidos:46,cliNov:3,ticket:127.36},
+  {cod:'00045',vlr:740506.085,qtde:5811,pedidos:35,cliNov:4,ticket:127.43},
+  {cod:'00052',vlr:586876.9,qtde:4611,pedidos:20,cliNov:5,ticket:127.28},
+  {cod:'07607',vlr:554770.513,qtde:4416,pedidos:27,cliNov:11,ticket:125.59},
   {cod:'06693',vlr:534811.81,qtde:4298,pedidos:23,cliNov:2,ticket:124.43},
-  {cod:'07607',vlr:527233.913,qtde:3979,pedidos:26,cliNov:10,ticket:125.47},
-  {cod:'07606',vlr:508006.4,qtde:3936,pedidos:23,cliNov:8,ticket:129.07},
-  {cod:'06672',vlr:339523.5,qtde:2585,pedidos:13,cliNov:2,ticket:131.34},
+  {cod:'07606',vlr:538063.6,qtde:4154,pedidos:24,cliNov:8,ticket:129.53},
+  {cod:'06672',vlr:356012.7,qtde:2733,pedidos:14,cliNov:2,ticket:130.26},
   {cod:'07608',vlr:257082.505,qtde:2011,pedidos:14,cliNov:5,ticket:127.84},
-  {cod:'07891',vlr:189978.9,qtde:1561,pedidos:12,cliNov:11,ticket:121.70},
-  {cod:'00040',vlr:175141.1,qtde:1409,pedidos:9,cliNov:0,ticket:124.30},
+  {cod:'07891',vlr:203810.6,qtde:1664,pedidos:13,cliNov:12,ticket:122.48},
+  {cod:'00040',vlr:179479.3,qtde:1447,pedidos:10,cliNov:1,ticket:124.04},
   {cod:'06008',vlr:170296.4,qtde:1306,pedidos:15,cliNov:0,ticket:130.40},
   {cod:'07520',vlr:168826.695,qtde:1347,pedidos:15,cliNov:10,ticket:125.34},
   {cod:'07332',vlr:152441.1,qtde:1179,pedidos:6,cliNov:0,ticket:129.30},
@@ -245,10 +249,10 @@ function renderTop5(listaAcum){
 }
 
 // Ranking da atualização anterior para setas ▲▼
-var RANK_ANT_REP={'00018':1,'00052':2,'00032':3,'00037':4,'06693':5,'07606':6,'07607':7,'07520':8,'07608':9,'00045':10,'07891':11,'07332':12,'00040':13,'06672':14,'07890':15,'06008':16,'07741':17,'00020':18,'07892':19,'00035':20};
+var RANK_ANT_REP={'06693':1,'07606':2,'00032':3,'00018':4,'00052':5,'00037':6,'07607':7,'00045':8,'07608':9,'07520':10,'00040':11,'07891':12,'07332':13,'06672':14,'07890':15,'07741':16,'06008':17,'00020':18,'07892':19,'00035':20};
 
 function renderGrupo(){
-  var sn=10,sp='15/06 a 21/06',msg='A colecao Verao 2027 esta em ritmo! Cada visita, cada pedido conta. Vamos juntos para o melhor resultado!',falt=Math.max(0,24-sn);
+  var sn=11,sp='15/06 a 21/06',msg='A colecao Verao 2027 esta em ritmo! Cada visita, cada pedido conta. Vamos juntos para o melhor resultado!',falt=Math.max(0,24-sn);
   setText('g-semn',sn);setText('g-per',sp);setText('g-falt',falt);
   var listaAcum=buildLista(dAcum),listaSem=buildLista(dSem);
   var dest=calcDestaques(listaSem);
