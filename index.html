@@ -151,31 +151,32 @@ var CORES=['#c9a84c','#e8c97a','#a0a0b0','#8b7355','#3ecf72','#60c9e8','#e07060'
 // Atualize estes dois blocos a cada semana
 // ============================================================
 var dSem=[
-  {cod:'00037',vlr:84157.8,qtde:662,pedidos:4,cliNov:0,ticket:127.13},
-  {cod:'07891',vlr:68294,qtde:570,pedidos:2,cliNov:0,ticket:119.81},
-  {cod:'07607',vlr:64026.4,qtde:496,pedidos:1,cliNov:0,ticket:129.09},
-  {cod:'00045',vlr:53862.7,qtde:403,pedidos:3,cliNov:1,ticket:133.65},
+  {cod:'00037',vlr:102457,qtde:800,pedidos:5,cliNov:0,ticket:128.07},
+  {cod:'07607',vlr:80314.9,qtde:621,pedidos:2,cliNov:0,ticket:129.33},
+  {cod:'00045',vlr:78193.5,qtde:595,pedidos:4,cliNov:1,ticket:131.42},
+  {cod:'07891',vlr:71621.7,qtde:606,pedidos:3,cliNov:0,ticket:118.19},
+  {cod:'00032',vlr:67250.13,qtde:550,pedidos:6,cliNov:1,ticket:122.27},
+  {cod:'06672',vlr:53792.6,qtde:414,pedidos:2,cliNov:0,ticket:129.93},
+  {cod:'07608',vlr:48899.2,qtde:358,pedidos:2,cliNov:0,ticket:136.59},
   {cod:'07892',vlr:35104.3,qtde:257,pedidos:2,cliNov:2,ticket:136.59},
-  {cod:'00032',vlr:34215.83,qtde:293,pedidos:4,cliNov:0,ticket:116.78},
   {cod:'00020',vlr:30257.37,qtde:242,pedidos:3,cliNov:0,ticket:125.03},
-  {cod:'07608',vlr:29337,qtde:220,pedidos:1,cliNov:0,ticket:133.35},
   {cod:'07606',vlr:11374.5,qtde:85,pedidos:1,cliNov:0,ticket:133.82},
-  {cod:'00040',vlr:6237.5,qtde:65,pedidos:1,cliNov:0,ticket:95.96},
+  {cod:'00040',vlr:9609.3,qtde:97,pedidos:2,cliNov:0,ticket:99.06},
   {cod:'00018',vlr:3544.735,qtde:27,pedidos:1,cliNov:0,ticket:131.29}
 ];
 var dAcum=[
-  {cod:'00032',vlr:1558343.217,qtde:12631,pedidos:83,cliNov:7,ticket:123.37},
+  {cod:'00032',vlr:1591377.517,qtde:12888,pedidos:85,cliNov:8,ticket:123.47},
   {cod:'00018',vlr:1124621.352,qtde:9017,pedidos:48,cliNov:7,ticket:124.72},
-  {cod:'00037',vlr:1145853.2,qtde:8998,pedidos:50,cliNov:3,ticket:127.35},
-  {cod:'00045',vlr:764195.285,qtde:5979,pedidos:37,cliNov:5,ticket:127.81},
-  {cod:'07607',vlr:618796.913,qtde:4689,pedidos:27,cliNov:11,ticket:125.98},
+  {cod:'00037',vlr:1164152.4,qtde:9136,pedidos:51,cliNov:3,ticket:127.42},
+  {cod:'00045',vlr:788526.085,qtde:6161,pedidos:38,cliNov:5,ticket:127.78},
+  {cod:'07607',vlr:635085.413,qtde:4814,pedidos:28,cliNov:11,ticket:126.08},
   {cod:'00052',vlr:586876.9,qtde:4611,pedidos:20,cliNov:5,ticket:127.28},
   {cod:'07606',vlr:554960.9,qtde:4281,pedidos:25,cliNov:8,ticket:129.63},
   {cod:'06693',vlr:534811.81,qtde:4298,pedidos:23,cliNov:2,ticket:124.43},
-  {cod:'06672',vlr:356012.7,qtde:2733,pedidos:14,cliNov:2,ticket:130.26},
-  {cod:'07608',vlr:286419.505,qtde:2231,pedidos:15,cliNov:5,ticket:128.38},
-  {cod:'07891',vlr:272104.6,qtde:2234,pedidos:15,cliNov:12,ticket:121.80},
-  {cod:'00040',vlr:185716.8,qtde:1512,pedidos:11,cliNov:1,ticket:122.83},
+  {cod:'06672',vlr:409805.3,qtde:3147,pedidos:16,cliNov:2,ticket:130.22},
+  {cod:'07608',vlr:305981.705,qtde:2369,pedidos:16,cliNov:5,ticket:129.16},
+  {cod:'07891',vlr:275432.3,qtde:2270,pedidos:16,cliNov:12,ticket:121.34},
+  {cod:'00040',vlr:189088.6,qtde:1544,pedidos:12,cliNov:1,ticket:122.47},
   {cod:'06008',vlr:170296.4,qtde:1306,pedidos:15,cliNov:0,ticket:130.40},
   {cod:'07520',vlr:168826.695,qtde:1347,pedidos:15,cliNov:10,ticket:125.34},
   {cod:'00020',vlr:155126.17,qtde:1274,pedidos:7,cliNov:1,ticket:121.76},
@@ -245,10 +246,10 @@ function renderTop5(listaAcum){
 }
 
 // Ranking da atualização anterior para setas ▲▼
-var RANK_ANT_REP={'07606':1,'00032':2,'00037':3,'00018':4,'06693':5,'00052':6,'07607':7,'00045':8,'07608':9,'07520':10,'07891':11,'00040':12,'07332':13,'06672':14,'07890':15,'07741':16,'06008':17,'00020':18,'07892':19,'00035':20};
+var RANK_ANT_REP={'00037':1,'07606':2,'00032':3,'00018':4,'06693':5,'00052':6,'07607':7,'07891':8,'00045':9,'07608':10,'07520':11,'00040':12,'07332':13,'06672':14,'07890':15,'07892':16,'07741':17,'06008':18,'00020':19,'00035':20};
 
 function renderGrupo(){
-  var sn=12,sp='22/06 a 28/06',msg='A colecao Verao 2027 esta em ritmo! Cada visita, cada pedido conta. Vamos juntos para o melhor resultado!',falt=Math.max(0,24-sn);
+  var sn=13,sp='29/06 a 05/07',msg='A colecao Verao 2027 esta em ritmo! Cada visita, cada pedido conta. Vamos juntos para o melhor resultado!',falt=Math.max(0,24-sn);
   setText('g-semn',sn);setText('g-per',sp);setText('g-falt',falt);
   var listaAcum=buildLista(dAcum),listaSem=buildLista(dSem);
   var dest=calcDestaques(listaSem);
